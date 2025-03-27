@@ -62,12 +62,14 @@
 
 #### Подключение к мастеру и реплике 
 
-* Используйте инструкцию по подключению к кластеру, доступную на вкладке «Обзор»: cкачайте SSL-сертификат и подключитесь к кластеру с помощью утилиты psql, указав hostname всех узлов и атрибут ```target_session_attrs=read-write```.
+* Используйте инструкцию по подключению к кластеру, доступную на вкладке «Обзор»: cкачайте SSL-сертификат и подключитесь к кластеру с помощью утилиты psql, указав hostname всех узлов и атрибут `target_session_attrs=read-write`.
 
 * Проверьте, что подключение прошло к master-узлу.
+
 ```
 select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
 ```
+
 * Посмотрите количество подключенных реплик:
 ```
 select count(*) from pg_stat_replication;
@@ -83,11 +85,12 @@ CREATE TABLE test_table(text varchar);
 insert into test_table values('Строка 1');
 ```
 
-* Выйдите из psql командой ```\q```.
+* Выйдите из psql командой `\q`.
 
-* Теперь подключитесь к узлу-реплике. Для этого из команды подключения удалите атрибут ```target_session_attrs```  и в параметре атрибут ```host``` передайте только имя хоста-реплики. Роли хостов можно посмотреть на соответствующей вкладке UI консоли.
+* Теперь подключитесь к узлу-реплике. Для этого из команды подключения удалите атрибут `target_session_attrs`  и в параметре атрибут `host` передайте только имя хоста-реплики. Роли хостов можно посмотреть на соответствующей вкладке UI консоли.
 
 * Проверьте, что подключение прошло к узлу-реплике.
+
 ```
 select case when pg_is_in_recovery() then 'REPLICA' else 'MASTER' end;
 ```
@@ -105,3 +108,46 @@ select * from test_table;
 
 *1) Созданной базы данных;*
 *2) Результата вывода команды на реплике ```select * from test_table;```.*
+
+
+<details>
+<summary>Ответ</summary>
+
+
+**Создаем кластер**
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/1.1.png)  
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/1.4.png)  
+
+**Проверяем роботоспособность кластера**
+
+*Подключаемся к базе, убеждаемся, что подключились к базе, проверяем состояние реплики*
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/1.2.png)  
+
+*Создаем таблицу, вносим изменения, подключаемся к реплике, проверяем таблицу*
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/1.3.png)  
+
+</details>
+
+<details>
+<summary>РАСШИРИЛ ЗАДАНИЕ И СОЗДАЛ КЛАСТЕР В TERRAFORM</summary>
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/2.1.png)  
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/2.2.png)  
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/2.3.png)  
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/2.4.png)  
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/2.5.png)  
+
+![img](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/img/2.6.png)  
+
+[файл bd.tf](https://github.com/travickiy67/Databases-in-the-cloud/blob/main/files/bd.tf)  
+</details>
+
+
